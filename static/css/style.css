@@ -1,0 +1,228 @@
+/* Blood Donation Management - Custom Styles */
+
+:root {
+    --blood-red: #dc3545;
+    --blood-red-dark: #c82333;
+    --blood-red-light: #f8d7da;
+    --success-green: #28a745;
+    --warning-orange: #ffc107;
+    --info-blue: #17a2b8;
+}
+
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Navigation Enhancements */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #fff !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.25rem;
+}
+
+/* Card Enhancements */
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background-color: var(--blood-red);
+    color: white;
+    font-weight: 600;
+    border-bottom: none;
+}
+
+/* Button Styles */
+.btn-blood {
+    background-color: var(--blood-red);
+    border-color: var(--blood-red);
+    color: white;
+}
+
+.btn-blood:hover {
+    background-color: var(--blood-red-dark);
+    border-color: var(--blood-red-dark);
+    color: white;
+}
+
+/* Blood Group Badges */
+.blood-group-badge {
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.blood-group-o-negative {
+    background-color: var(--blood-red);
+    color: white;
+}
+
+.blood-group-ab-positive {
+    background-color: var(--success-green);
+    color: white;
+}
+
+.blood-group-rare {
+    background-color: var(--warning-orange);
+    color: black;
+}
+
+.blood-group-common {
+    background-color: var(--info-blue);
+    color: white;
+}
+
+/* Urgency Level Styles */
+.urgency-critical {
+    color: var(--blood-red);
+    font-weight: bold;
+}
+
+.urgency-high {
+    color: #fd7e14;
+    font-weight: bold;
+}
+
+.urgency-medium {
+    color: var(--warning-orange);
+    font-weight: 600;
+}
+
+.urgency-low {
+    color: var(--success-green);
+    font-weight: 500;
+}
+
+/* Status Badges */
+.status-active {
+    background-color: var(--success-green);
+}
+
+.status-fulfilled {
+    background-color: #6c757d;
+}
+
+/* Dashboard Stats Cards */
+.stats-card {
+    border-left: 4px solid var(--blood-red);
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+}
+
+.stats-card .card-body {
+    padding: 1.5rem;
+}
+
+.stats-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--blood-red);
+    line-height: 1;
+}
+
+.stats-label {
+    color: #6c757d;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+/* Form Enhancements */
+.form-control:focus {
+    border-color: var(--blood-red);
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+.form-select:focus {
+    border-color: var(--blood-red);
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Table Enhancements */
+.table th {
+    background-color: var(--blood-red-light);
+    color: var(--blood-red-dark);
+    font-weight: 600;
+    border-bottom: 2px solid var(--blood-red);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: none;
+}
+
+.loading .loading-spinner {
+    display: inline-block;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .stats-number {
+        font-size: 2rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Alert Enhancements */
+.alert {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.alert-success {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: var(--success-green);
+    border-left: 4px solid var(--success-green);
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--blood-red);
+    border-left: 4px solid var(--blood-red);
+}
+
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #856404;
+    border-left: 4px solid var(--warning-orange);
+}

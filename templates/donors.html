@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+
+{% block title %}Donors - Blood Donation Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Alert container for messages -->
+    <div class="alert-container"></div>
+    
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>
+                    <i class="bi bi-people me-2 text-danger"></i>
+                    Donor Management
+                </h2>
+                <button class="btn btn-blood" data-bs-toggle="modal" data-bs-target="#addDonorModal">
+                    <i class="bi bi-plus-circle me-1"></i>Add New Donor
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="searchName" class="form-label">Search by Name</label>
+                            <input type="text" class="form-control" id="searchName" placeholder="Enter donor name...">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="filterBloodGroup" class="form-label">Blood Group</label>
+                            <select class="form-select" id="filterBloodGroup">
+                                <option value="">All Blood Groups</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="filterCity" class="form-label">City</label>
+                            <input type="text" class="form-control" id="filterCity" placeholder="Enter city...">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="d-grid">
+                                <button class="btn btn-outline-danger" id="searchBtn">
+                                    <i class="bi bi-search me-1"></i>Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Donors Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-list me-2"></i>
+                        Registered Donors
+                        <span class="badge bg-secondary ms-2" id="donorCount">0</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <!-- Loading indicator -->
+                    <div class="text-center py-4 loading-spinner">
+                        <div class="spinner-border text-danger" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2 text-muted">Loading donors...</p>
+                    </div>
+                    
+                    <!-- Donors table -->
+                    <div class="table-responsive" id="donorsTableContainer">
+                        <table class="table table-hover" id="donorsTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Blood Group</th>
+                                    <th>City</th>
+                                    <th>Contact</th>
+                                    <th>Email</th>
+                                    <th>Registered</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="donorsTableBody">
+                                <!-- Donors will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Empty state -->
+                    <div class="text-center py-5 d-none" id="emptyState">
+                        <i class="bi bi-people text-muted" style="font-size: 4rem;"></i>
+                        <h4 class="mt-3 text-muted">No Donors Found</h4>
+                        <p class="text-muted">Start by adding your first donor to the system.</p>
+                        <button class="btn btn-blood" data-bs-toggle="modal" data-bs-target="#addDonorModal">
+                            <i class="bi bi-plus-circle me-1"></i>Add First Donor
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Donor Modal -->
+<div class="modal fade" id="addDonorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-person-plus me-2"></i>Add New Donor
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="addDonorForm" data-api="true">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="donorName" class="form-label">Full Name *</label>
+                            <input type="text" class="form-control" id="donorName" name="name" required>
+                            <div class="invalid-feedback">Please provide a valid name.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="donorBloodGroup" class="form-label">Blood Group *</label>
+                            <select class="form-select" id="donorBloodGroup" name="blood_group" required>
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a blood group.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="donorCity" class="form-label">City *</label>
+                            <input type="text" class="form-control" id="donorCity" name="city" required>
+                            <div class="invalid-feedback">Please provide a city.</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="donorContact" class="form-label">Contact Number *</label>
+                            <input type="tel" class="form-control" id="donorContact" name="contact_number" required>
+                            <div class="invalid-feedback">Please provide a valid contact number.</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="donorEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="donorEmail" name="email">
+                            <div class="invalid-feedback">Please provide a valid email address.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-blood">
+                        <span class="loading-spinner spinner-border spinner-border-sm me-2" role="status"></span>
+                        <i class="bi bi-check-circle me-1"></i>Add Donor
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Donor Modal -->
+<div class="modal fade" id="editDonorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-person-gear me-2"></i>Edit Donor
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editDonorForm" data-api="true">
+                <input type="hidden" id="editDonorId" name="id">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="editDonorName" class="form-label">Full Name *</label>
+                            <input type="text" class="form-control" id="editDonorName" name="name" required>
+                            <div class="invalid-feedback">Please provide a valid name.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editDonorBloodGroup" class="form-label">Blood Group *</label>
+                            <select class="form-select" id="editDonorBloodGroup" name="blood_group" required>
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                            <div class="invalid-feedback">Please select a blood group.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editDonorCity" class="form-label">City *</label>
+                            <input type="text" class="form-control" id="editDonorCity" name="city" required>
+                            <div class="invalid-feedback">Please provide a city.</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="editDonorContact" class="form-label">Contact Number *</label>
+                            <input type="tel" class="form-control" id="editDonorContact" name="contact_number" required>
+                            <div class="invalid-feedback">Please provide a valid contact number.</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="editDonorEmail" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="editDonorEmail" name="email">
+                            <div class="invalid-feedback">Please provide a valid email address.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-blood">
+                        <span class="loading-spinner spinner-border spinner-border-sm me-2" role="status"></span>
+                        <i class="bi bi-check-circle me-1"></i>Update Donor
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Donor Detail Modal -->
+<div class="modal fade" id="donorDetailModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-person-circle me-2"></i>Donor Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="donorDetailContent">
+                <!-- Donor details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-danger" id="editFromDetailBtn">
+                    <i class="bi bi-pencil me-1"></i>Edit Donor
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', path='/js/donors.js') }}"></script>
+{% endblock %}
